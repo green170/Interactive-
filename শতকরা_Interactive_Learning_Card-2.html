@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>শতকরা — Interactive Learning Card</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:"Noto Sans Bengali","Noto Sans",Arial,sans-serif;
+    background:linear-gradient(135deg,#eef7ff,#fff7ed);
+    color:#172033; min-height:100vh; display:flex; justify-content:center;
+    padding:22px;
+  }
+  .card{
+    width:min(760px,100%); background:white; border-radius:28px;
+    box-shadow:0 12px 40px rgba(30,50,80,.15); overflow:hidden;
+  }
+  .head{
+    padding:25px 24px 20px;
+    background:linear-gradient(135deg,#e8f3ff,#f8fbff);
+    border-bottom:1px solid #e6edf5;
+  }
+  .tag{display:inline-block;padding:7px 13px;border-radius:20px;background:#dceeff;font-weight:700;font-size:14px}
+  h1{margin:12px 0 5px;font-size:30px}
+  .sub{margin:0;color:#5b6678;font-size:16px}
+  .content{padding:22px}
+  .grid{
+    display:grid;grid-template-columns:repeat(10,1fr);gap:5px;
+    max-width:500px;margin:8px auto 20px;
+  }
+  .cell{
+    aspect-ratio:1;border:1px solid #d5deea;border-radius:5px;background:#f5f8fb;
+    cursor:pointer;transition:.12s;
+  }
+  .cell:hover{transform:scale(1.06)}
+  .cell.active{background:#4d9cff;border-color:#2f82e8}
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0;
+  }
+  .stat{background:#f7f9fc;border-radius:16px;padding:14px;text-align:center}
+  .stat b{display:block;font-size:24px;margin-top:4px}
+  .formula{
+    text-align:center;background:#fff7df;border:1px solid #f2df9c;
+    border-radius:16px;padding:14px;font-size:20px;font-weight:700;margin:16px 0;
+  }
+  .buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  button{
+    border:0;border-radius:13px;padding:11px 18px;font-size:16px;font-weight:700;
+    cursor:pointer;background:#172033;color:white;
+  }
+  button.secondary{background:#edf2f7;color:#172033}
+  .learn{
+    margin-top:18px;padding:18px;border-radius:18px;background:#f1f8ff;
+    border:1px solid #d6eaff;display:none;
+  }
+  .learn.show{display:block}
+  .quiz{
+    margin-top:18px;padding:18px;border-radius:18px;background:#f8f3ff;
+    border:1px solid #e7d9ff;
+  }
+  .answers{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .answers button{background:white;color:#172033;border:1px solid #d8d0ee}
+  .msg{font-weight:700;margin-top:10px;min-height:24px}
+  .tip{text-align:center;color:#667085;font-size:14px;margin-top:12px}
+  @media(max-width:520px){
+    body{padding:10px}.content{padding:15px}h1{font-size:25px}
+    .grid{gap:3px}.cell{border-radius:3px}.stats{gap:6px}
+    .stat{padding:10px 5px}.stat b{font-size:20px}
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <span class="tag">📚 ৫ম শ্রেণি • গণিত</span>
+    <h1>শতকরা — Interactive Learning Card</h1>
+    <p class="sub">১০০টি ঘরের মধ্যে যতটি নির্বাচন করবেন, তত শতাংশ দেখাবে।</p>
+  </div>
+
+  <div class="content">
+    <div class="grid" id="grid"></div>
+
+    <div class="stats">
+      <div class="stat">নির্বাচিত ঘর<b id="count">0</b></div>
+      <div class="stat">মোট ঘর<b>100</b></div>
+      <div class="stat">শতকরা<b id="percent">0%</b></div>
+    </div>
+
+    <div class="formula">
+      শতকরা = (অংশ ÷ মোট) × ১০০
+    </div>
+
+    <div class="buttons">
+      <button onclick="showLearn()">💡 Learn More</button>
+      <button class="secondary" onclick="resetAll()">↺ আবার শুরু</button>
+      <button class="secondary" onclick="random25()">25% দেখাও</button>
+    </div>
+
+    <div class="learn" id="learn">
+      <h3>🌟 সহজ করে বুঝি</h3>
+      <p><b>শতকরা</b> মানে হলো—কোনো কিছুকে ১০০ ধরে তার মধ্যে কত অংশ আছে।</p>
+      <p>যেমন, ১০০টি ঘরের মধ্যে ২৫টি নীল হলে → <b>২৫%</b>।</p>
+      <p>আর ৫০টি নীল হলে → <b>৫০%</b>।</p>
+    </div>
+
+    <div class="quiz">
+      <h3>🎯 ছোট্ট Quiz</h3>
+      <p>১০০ টাকার মধ্যে ২০ টাকা খরচ হলো। খরচের পরিমাণ কত শতাংশ?</p>
+      <div class="answers">
+        <button onclick="answer(10)">১০%</button>
+        <button onclick="answer(20)">২০%</button>
+        <button onclick="answer(50)">৫০%</button>
+        <button onclick="answer(80)">৮০%</button>
+      </div>
+      <div class="msg" id="msg"></div>
+    </div>
+
+    <div class="tip">👉 ঘরগুলোতে ক্লিক করুন এবং নিজে নিজে শতকরা আবিষ্কার করুন।</div>
+  </div>
+</div>
+
+<script>
+const grid=document.getElementById("grid");
+for(let i=0;i<100;i++){
+  const c=document.createElement("div");
+  c.className="cell";
+  c.onclick=()=>{c.classList.toggle("active"); update();};
+  grid.appendChild(c);
+}
+function update(){
+  const n=document.querySelectorAll(".cell.active").length;
+  document.getElementById("count").textContent=n;
+  document.getElementById("percent").textContent=n+"%";
+}
+function resetAll(){
+  document.querySelectorAll(".cell.active").forEach(c=>c.classList.remove("active"));
+  update(); document.getElementById("msg").textContent="";
+}
+function random25(){
+  resetAll();
+  [...document.querySelectorAll(".cell")].slice(0,25).forEach(c=>c.classList.add("active"));
+  update();
+}
+function showLearn(){document.getElementById("learn").classList.toggle("show")}
+function answer(n){
+  const m=document.getElementById("msg");
+  m.textContent=n===20 ? "✅ সঠিক! ২০ টাকা হলো ১০০ টাকার ২০%।" : "❌ আবার ভাবুন—১০০ টাকার মধ্যে ২০ টাকা।";
+}
+</script>
+</body>
+</html>
