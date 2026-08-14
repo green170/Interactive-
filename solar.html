@@ -4,99 +4,116 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>pschoolbd | 3D Solar System</title>
+<title>pschoolbd | সৌরজগত</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  overflow:hidden;
-  background:#020617;
-  color:white;
-  font-family:Arial,sans-serif;
+    margin:0;
+    overflow:hidden;
+    background:#020516;
+    color:white;
+    font-family:Arial,"Noto Sans Bengali",sans-serif;
 }
 
 #app{
-  width:100vw;
-  height:100vh;
+    width:100vw;
+    height:100vh;
 }
 
 .header{
-  position:fixed;
-  top:15px;
-  left:0;
-  width:100%;
-  text-align:center;
-  z-index:10;
-  pointer-events:none;
+    position:fixed;
+    top:12px;
+    left:0;
+    width:100%;
+    text-align:center;
+    z-index:10;
+    pointer-events:none;
 }
 
 .header h1{
-  margin:0;
-  font-size:32px;
+    margin:0;
+    font-size:clamp(30px,8vw,55px);
+    font-weight:800;
+    text-shadow:0 0 15px #ffffff55;
 }
 
 .header p{
-  margin:6px 0;
-  opacity:.75;
+    margin:5px 0;
+    font-size:18px;
+    font-style:italic;
+    font-weight:bold;
+    opacity:.85;
 }
 
 .brand{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:10;
-  font-weight:bold;
-  opacity:.7;
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    font-size:20px;
+    font-weight:bold;
+    font-style:italic;
+    opacity:.75;
+    z-index:10;
 }
 
 .hint{
-  position:fixed;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#ffffff15;
-  border:1px solid #ffffff30;
-  padding:9px 15px;
-  border-radius:20px;
-  z-index:10;
-  font-size:13px;
+    position:fixed;
+    bottom:70px;
+    left:50%;
+    transform:translateX(-50%);
+    width:max-content;
+    max-width:90%;
+    text-align:center;
+    background:#171b2ee8;
+    border:1px solid #ffffff35;
+    border-radius:30px;
+    padding:12px 20px;
+    font-size:15px;
+    z-index:10;
 }
 
 .info{
-  display:none;
-  position:fixed;
-  top:80px;
-  right:18px;
-  width:300px;
-  padding:18px;
-  border-radius:18px;
-  background:#07111eeF;
-  border:1px solid #ffffff35;
-  backdrop-filter:blur(12px);
-  z-index:20;
+    position:fixed;
+    top:85px;
+    right:15px;
+    width:300px;
+    max-width:calc(100% - 30px);
+    padding:20px;
+    background:#080d1cf5;
+    border:1px solid #ffffff40;
+    border-radius:20px;
+    z-index:30;
+    display:none;
+    backdrop-filter:blur(12px);
+    box-shadow:0 10px 40px #0008;
 }
 
 .info.show{
-  display:block;
+    display:block;
 }
 
 .info h2{
-  margin-top:0;
+    margin:0 0 10px;
+    font-size:26px;
+}
+
+.info p{
+    line-height:1.6;
 }
 
 .close{
-  float:right;
-  border:0;
-  background:#ffffff20;
-  color:white;
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  cursor:pointer;
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:32px;
+    height:32px;
+    border:0;
+    border-radius:50%;
+    background:#ffffff20;
+    color:white;
+    font-size:20px;
 }
 </style>
 </head>
@@ -106,569 +123,653 @@ body{
 <div id="app"></div>
 
 <div class="header">
-  <h1>🌌 সৌরজগত</h1>
-  <p>Interactive 3D Solar System</p>
+    <h1>🌌 সৌরজগত</h1>
+    <p>Interactive 3D Solar System</p>
 </div>
 
 <div class="hint">
-  👆 গ্রহে ক্লিক করুন • 🖱️ Drag করুন • 🔍 Zoom করুন
+    👆 গ্রহে ক্লিক করুন • 🖱️ Drag করুন • 🔍 Zoom করুন
 </div>
 
 <div class="brand">
-  pschoolbd
+    pschoolbd
 </div>
 
 <div id="info" class="info">
-  <button class="close" onclick="closeInfo()">×</button>
-  <h2 id="planetName"></h2>
-  <p id="planetInfo"></p>
+    <button class="close" onclick="closeInfo()">×</button>
+    <h2 id="planetName"></h2>
+    <p id="planetText"></p>
 </div>
+
+
+<!-- Three.js Import Map -->
+<script type="importmap">
+{
+    "imports":{
+        "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+
 
 <script type="module">
 
-import * as THREE from
-'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import * as THREE from "three";
 
-import {OrbitControls} from
-'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+import {
+    OrbitControls
+} from "three/addons/controls/OrbitControls.js";
 
 
-// =========================
+// ===============================
 // SCENE
-// =========================
+// ===============================
 
 const scene = new THREE.Scene();
 
-scene.background = new THREE.Color(0x020617);
+scene.background = new THREE.Color(0x020516);
 
 
-// =========================
+// ===============================
 // CAMERA
-// =========================
+// ===============================
 
 const camera = new THREE.PerspectiveCamera(
-  55,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  200
+    55,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    300
 );
 
-camera.position.set(0,15,32);
+camera.position.set(0,16,34);
 
 
-// =========================
+// ===============================
 // RENDERER
-// =========================
+// ===============================
 
 const renderer = new THREE.WebGLRenderer({
-  antialias:true
+    antialias:true
 });
 
 renderer.setPixelRatio(
-  Math.min(window.devicePixelRatio,2)
+    Math.min(window.devicePixelRatio,2)
 );
 
 renderer.setSize(
-  window.innerWidth,
-  window.innerHeight
+    window.innerWidth,
+    window.innerHeight
 );
 
 document
-  .getElementById("app")
-  .appendChild(renderer.domElement);
+.getElementById("app")
+.appendChild(renderer.domElement);
 
 
-// =========================
-// CAMERA CONTROLS
-// =========================
+// ===============================
+// CONTROLS
+// ===============================
 
 const controls = new OrbitControls(
-  camera,
-  renderer.domElement
+    camera,
+    renderer.domElement
 );
 
 controls.enableDamping = true;
+controls.dampingFactor = 0.05;
 
 controls.minDistance = 7;
+controls.maxDistance = 80;
 
-controls.maxDistance = 70;
 
-
-// =========================
+// ===============================
 // LIGHT
-// =========================
+// ===============================
 
 scene.add(
-  new THREE.AmbientLight(
-    0xffffff,
-    1
-  )
+    new THREE.AmbientLight(
+        0xffffff,
+        0.8
+    )
 );
 
 const sunLight =
-  new THREE.PointLight(
-    0xffffff,
-    5,
-    0
-  );
+    new THREE.PointLight(
+        0xffffff,
+        6,
+        0
+    );
 
 scene.add(sunLight);
 
 
-// =========================
-// SPHERE FUNCTION
-// =========================
-
-function createPlanet(
-  radius,
-  color,
-  glow = 0x000000
-){
-
-  const material =
-    new THREE.MeshStandardMaterial({
-      color:color,
-      roughness:.8,
-      emissive:glow,
-      emissiveIntensity:1
-    });
-
-  const geometry =
-    new THREE.SphereGeometry(
-      radius,
-      32,
-      32
-    );
-
-  return new THREE.Mesh(
-    geometry,
-    material
-  );
-}
-
-
-// =========================
-// SUN
-// =========================
-
-const sun =
-  createPlanet(
-    2.4,
-    0xffaa00,
-    0xff6600
-  );
-
-sun.userData = {
-  name:"সূর্য",
-  info:"সূর্য হলো সৌরজগতের কেন্দ্রীয় নক্ষত্র।"
-};
-
-scene.add(sun);
-
-
-// =========================
-// PLANETS
-// =========================
-
-const planetsData = [
-
-  {
-    name:"বুধ",
-    radius:.55,
-    distance:4.2,
-    color:0xaaaaaa,
-    speed:.0010,
-    info:"বুধ হলো সূর্যের সবচেয়ে কাছের গ্রহ।"
-  },
-
-  {
-    name:"শুক্র",
-    radius:.75,
-    distance:6,
-    color:0xe0bd78,
-    speed:.0007,
-    info:"শুক্র সৌরজগতের অন্যতম উষ্ণ গ্রহ।"
-  },
-
-  {
-    name:"পৃথিবী",
-    radius:.82,
-    distance:8,
-    color:0x287be8,
-    speed:.0005,
-    info:"পৃথিবী আমাদের বাসস্থান এবং এখানে প্রাণের অস্তিত্ব রয়েছে।"
-  },
-
-  {
-    name:"মঙ্গল",
-    radius:.68,
-    distance:10,
-    color:0xc14432,
-    speed:.0004,
-    info:"মঙ্গলকে লাল গ্রহ বলা হয়।"
-  },
-
-  {
-    name:"বৃহস্পতি",
-    radius:1.55,
-    distance:13,
-    color:0xd6a06a,
-    speed:.00018,
-    info:"বৃহস্পতি সৌরজগতের সবচেয়ে বড় গ্রহ।"
-  },
-
-  {
-    name:"শনি",
-    radius:1.3,
-    distance:16,
-    color:0xd8c18a,
-    speed:.00014,
-    info:"শনির চারপাশে একটি সুন্দর বলয় রয়েছে।"
-  },
-
-  {
-    name:"ইউরেনাস",
-    radius:1.02,
-    distance:19,
-    color:0x76d7e8,
-    speed:.00010,
-    info:"ইউরেনাস একটি বরফ দৈত্য গ্রহ।"
-  },
-
-  {
-    name:"নেপচুন",
-    radius:1,
-    distance:22,
-    color:0x4169e1,
-    speed:.00008,
-    info:"নেপচুন হলো সূর্য থেকে সবচেয়ে দূরের গ্রহ।"
-  }
-
-];
-
-
-// =========================
-// CREATE PLANETS
-// =========================
-
-const planets = [];
-
-planetsData.forEach(data => {
-
-  const orbit =
-    new THREE.Object3D();
-
-  scene.add(orbit);
-
-
-  const planet =
-    createPlanet(
-      data.radius,
-      data.color
-    );
-
-  planet.position.x =
-    data.distance;
-
-  planet.userData = data;
-
-  orbit.add(planet);
-
-
-  // Orbit line
-
-  const ring =
-    new THREE.Mesh(
-
-      new THREE.RingGeometry(
-        data.distance - .012,
-        data.distance + .012,
-        128
-      ),
-
-      new THREE.MeshBasicMaterial({
-        color:0xffffff,
-        transparent:true,
-        opacity:.15,
-        side:THREE.DoubleSide
-      })
-
-    );
-
-  ring.rotation.x =
-    Math.PI / 2;
-
-  scene.add(ring);
-
-
-  // Planet label
-
-  const canvas =
-    document.createElement("canvas");
-
-  canvas.width = 400;
-  canvas.height = 100;
-
-  const ctx =
-    canvas.getContext("2d");
-
-  ctx.font =
-    "bold 38px Arial";
-
-  ctx.fillStyle =
-    "white";
-
-  ctx.textAlign =
-    "center";
-
-  ctx.fillText(
-    data.name,
-    200,
-    60
-  );
-
-
-  const texture =
-    new THREE.CanvasTexture(canvas);
-
-  const label =
-    new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map:texture,
-        transparent:true
-      })
-    );
-
-  label.scale.set(
-    3.5,
-    .9,
-    1
-  );
-
-  label.position.y =
-    data.radius + 1;
-
-  planet.add(label);
-
-
-  // Saturn ring
-
-  if(data.name === "শনি"){
-
-    const saturnRing =
-      new THREE.Mesh(
-
-        new THREE.RingGeometry(
-          1.7,
-          2.5,
-          64
-        ),
-
-        new THREE.MeshBasicMaterial({
-          color:0xd8c18a,
-          transparent:true,
-          opacity:.8,
-          side:THREE.DoubleSide
-        })
-
-      );
-
-    saturnRing.rotation.x =
-      Math.PI / 2.4;
-
-    planet.add(saturnRing);
-  }
-
-
-  planets.push({
-    planet,
-    orbit,
-    speed:data.speed
-  });
-
-});
-
-
-// =========================
-// STARS
-// =========================
+// ===============================
+// STAR FIELD
+// ===============================
 
 const starGeometry =
-  new THREE.BufferGeometry();
+    new THREE.BufferGeometry();
 
-const starPositions = [];
+const starArray = [];
 
-for(let i=0;i<2500;i++){
+for(let i=0;i<3500;i++){
 
-  starPositions.push(
-    (Math.random()-.5)*160,
-    (Math.random()-.5)*160,
-    (Math.random()-.5)*160
-  );
+    starArray.push(
+        (Math.random()-0.5)*220,
+        (Math.random()-0.5)*220,
+        (Math.random()-0.5)*220
+    );
 
 }
 
 starGeometry.setAttribute(
-  "position",
-  new THREE.Float32BufferAttribute(
-    starPositions,
-    3
-  )
+    "position",
+    new THREE.Float32BufferAttribute(
+        starArray,
+        3
+    )
 );
 
-const stars =
-  new THREE.Points(
-    starGeometry,
+const starMaterial =
     new THREE.PointsMaterial({
-      color:0xffffff,
-      size:.08
-    })
-  );
+        color:0xffffff,
+        size:0.08
+    });
+
+const stars =
+    new THREE.Points(
+        starGeometry,
+        starMaterial
+    );
 
 scene.add(stars);
 
 
-// =========================
-// CLICK INTERACTION
-// =========================
+// ===============================
+// SPHERE FUNCTION
+// ===============================
 
-const raycaster =
-  new THREE.Raycaster();
+function makeSphere(
+    radius,
+    color,
+    emissive=0x000000
+){
 
-const mouse =
-  new THREE.Vector2();
+    const geometry =
+        new THREE.SphereGeometry(
+            radius,
+            40,
+            40
+        );
 
-renderer.domElement
-.addEventListener(
-  "pointerdown",
-  event => {
+    const material =
+        new THREE.MeshStandardMaterial({
+            color:color,
+            roughness:.75,
+            metalness:.05,
+            emissive:emissive,
+            emissiveIntensity:1
+        });
 
-    mouse.x =
-      (event.clientX /
-      window.innerWidth) * 2 - 1;
-
-    mouse.y =
-      -(event.clientY /
-      window.innerHeight) * 2 + 1;
+    return new THREE.Mesh(
+        geometry,
+        material
+    );
+}
 
 
-    raycaster.setFromCamera(
-      mouse,
-      camera
+// ===============================
+// SUN
+// ===============================
+
+const sun =
+    makeSphere(
+        2.5,
+        0xffaa00,
+        0xff5500
     );
 
-
-    const objects =
-      planets.map(
-        p => p.planet
-      );
-
-    const hits =
-      raycaster.intersectObjects(
-        objects
-      );
+scene.add(sun);
 
 
-    if(hits.length){
+// Sun glow
 
-      const data =
-        hits[0].object.userData;
+const glowGeometry =
+    new THREE.SphereGeometry(
+        2.8,
+        32,
+        32
+    );
 
-      document.getElementById(
-        "planetName"
-      ).textContent =
-        data.name;
+const glowMaterial =
+    new THREE.MeshBasicMaterial({
+        color:0xff9900,
+        transparent:true,
+        opacity:.12
+    });
 
-      document.getElementById(
-        "planetInfo"
-      ).textContent =
-        data.info;
+const glow =
+    new THREE.Mesh(
+        glowGeometry,
+        glowMaterial
+    );
 
-      document.getElementById(
-        "info"
-      ).classList.add("show");
+scene.add(glow);
 
+
+// ===============================
+// PLANET DATA
+// ===============================
+
+const planetData = [
+
+{
+    name:"বুধ",
+    radius:.55,
+    distance:4.5,
+    color:0xaaaaaa,
+    orbitSpeed:.010,
+    info:"বুধ হলো সূর্যের সবচেয়ে কাছের গ্রহ।"
+},
+
+{
+    name:"শুক্র",
+    radius:.75,
+    distance:6.5,
+    color:0xd8a95b,
+    orbitSpeed:.007,
+    info:"শুক্র সৌরজগতের একটি অত্যন্ত উষ্ণ গ্রহ।"
+},
+
+{
+    name:"পৃথিবী",
+    radius:.85,
+    distance:8.5,
+    color:0x287be8,
+    orbitSpeed:.005,
+    info:"পৃথিবী আমাদের বাসস্থান। এখানে পানি ও প্রাণের অস্তিত্ব রয়েছে।"
+},
+
+{
+    name:"মঙ্গল",
+    radius:.68,
+    distance:10.5,
+    color:0xc94b35,
+    orbitSpeed:.004,
+    info:"মঙ্গলকে লাল গ্রহ বলা হয়।"
+},
+
+{
+    name:"বৃহস্পতি",
+    radius:1.55,
+    distance:13.5,
+    color:0xd49b6a,
+    orbitSpeed:.002,
+    info:"বৃহস্পতি সৌরজগতের সবচেয়ে বড় গ্রহ।"
+},
+
+{
+    name:"শনি",
+    radius:1.3,
+    distance:17,
+    color:0xd8c18a,
+    orbitSpeed:.0015,
+    info:"শনি তার সুন্দর বলয়ের জন্য বিখ্যাত।"
+},
+
+{
+    name:"ইউরেনাস",
+    radius:1.0,
+    distance:20.5,
+    color:0x71d5df,
+    orbitSpeed:.001,
+    info:"ইউরেনাস একটি বরফ দৈত্য গ্রহ।"
+},
+
+{
+    name:"নেপচুন",
+    radius:1.0,
+    distance:24,
+    color:0x4169e1,
+    orbitSpeed:.0008,
+    info:"নেপচুন হলো সূর্য থেকে সবচেয়ে দূরের গ্রহ।"
+}
+
+];
+
+
+// ===============================
+// CREATE PLANETS
+// ===============================
+
+const planets = [];
+
+planetData.forEach(data=>{
+
+    // Orbit container
+
+    const orbit =
+        new THREE.Object3D();
+
+    scene.add(orbit);
+
+
+    // Planet
+
+    const planet =
+        makeSphere(
+            data.radius,
+            data.color
+        );
+
+    planet.position.x =
+        data.distance;
+
+    planet.userData = data;
+
+    orbit.add(planet);
+
+
+    // ===========================
+    // ORBIT LINE
+    // ===========================
+
+    const orbitGeometry =
+        new THREE.RingGeometry(
+            data.distance-.015,
+            data.distance+.015,
+            160
+        );
+
+    const orbitMaterial =
+        new THREE.MeshBasicMaterial({
+            color:0xffffff,
+            transparent:true,
+            opacity:.16,
+            side:THREE.DoubleSide
+        });
+
+    const orbitRing =
+        new THREE.Mesh(
+            orbitGeometry,
+            orbitMaterial
+        );
+
+    orbitRing.rotation.x =
+        Math.PI/2;
+
+    scene.add(orbitRing);
+
+
+    // ===========================
+    // LABEL
+    // ===========================
+
+    const canvas =
+        document.createElement("canvas");
+
+    canvas.width = 500;
+    canvas.height = 120;
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.font =
+        "bold 46px Arial";
+
+    ctx.fillStyle =
+        "#ffffff";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.shadowColor =
+        "#000000";
+
+    ctx.shadowBlur = 8;
+
+    ctx.fillText(
+        data.name,
+        250,
+        70
+    );
+
+    const texture =
+        new THREE.CanvasTexture(
+            canvas
+        );
+
+    const label =
+        new THREE.Sprite(
+            new THREE.SpriteMaterial({
+                map:texture,
+                transparent:true
+            })
+        );
+
+    label.scale.set(
+        4,
+        .95,
+        1
+    );
+
+    label.position.y =
+        data.radius+1.1;
+
+    planet.add(label);
+
+
+    // ===========================
+    // SATURN RING
+    // ===========================
+
+    if(data.name==="শনি"){
+
+        const ringGeometry =
+            new THREE.RingGeometry(
+                1.65,
+                2.55,
+                80
+            );
+
+        const ringMaterial =
+            new THREE.MeshBasicMaterial({
+                color:0xd7c18a,
+                transparent:true,
+                opacity:.85,
+                side:THREE.DoubleSide
+            });
+
+        const saturnRing =
+            new THREE.Mesh(
+                ringGeometry,
+                ringMaterial
+            );
+
+        saturnRing.rotation.x =
+            Math.PI/2.4;
+
+        planet.add(
+            saturnRing
+        );
     }
 
-  }
+
+    planets.push({
+        planet:planet,
+        orbit:orbit,
+        speed:data.orbitSpeed
+    });
+
+});
+
+
+// ===============================
+// CLICK SYSTEM
+// ===============================
+
+const raycaster =
+    new THREE.Raycaster();
+
+const mouse =
+    new THREE.Vector2();
+
+
+renderer.domElement.addEventListener(
+    "pointerdown",
+    event=>{
+
+        mouse.x =
+            (event.clientX /
+            window.innerWidth)*2-1;
+
+        mouse.y =
+            -(event.clientY /
+            window.innerHeight)*2+1;
+
+
+        raycaster.setFromCamera(
+            mouse,
+            camera
+        );
+
+
+        const objects =
+            planets.map(
+                item=>item.planet
+            );
+
+
+        const hits =
+            raycaster.intersectObjects(
+                objects
+            );
+
+
+        if(hits.length){
+
+            const data =
+                hits[0]
+                .object
+                .userData;
+
+
+            document
+            .getElementById(
+                "planetName"
+            )
+            .textContent =
+                data.name;
+
+
+            document
+            .getElementById(
+                "planetText"
+            )
+            .textContent =
+                data.info;
+
+
+            document
+            .getElementById(
+                "info"
+            )
+            .classList.add(
+                "show"
+            );
+
+        }
+
+    }
 );
 
 
-// =========================
-// CLOSE CARD
-// =========================
+// ===============================
+// CLOSE
+// ===============================
 
 window.closeInfo =
 function(){
 
-  document
+    document
     .getElementById("info")
-    .classList.remove("show");
+    .classList.remove(
+        "show"
+    );
 
 };
 
 
-// =========================
+// ===============================
 // ANIMATION
-// =========================
+// ===============================
 
 function animate(){
 
-  requestAnimationFrame(
-    animate
-  );
+    requestAnimationFrame(
+        animate
+    );
 
 
-  // Sun rotation
+    // Sun rotation
 
-  sun.rotation.y += .002;
+    sun.rotation.y += .003;
 
-
-  // Planet rotation + orbit
-
-  planets.forEach(p => {
-
-    p.orbit.rotation.y +=
-      p.speed;
-
-    p.planet.rotation.y +=
-      .01;
-
-  });
+    glow.rotation.y += .002;
 
 
-  controls.update();
+    // Planet orbit + rotation
 
-  renderer.render(
-    scene,
-    camera
-  );
+    planets.forEach(item=>{
+
+        item.orbit.rotation.y +=
+            item.speed;
+
+        item.planet.rotation.y +=
+            .012;
+
+    });
+
+
+    // Stars slowly rotate
+
+    stars.rotation.y +=
+        .00008;
+
+
+    controls.update();
+
+    renderer.render(
+        scene,
+        camera
+    );
 
 }
 
 animate();
 
 
-// =========================
+// ===============================
 // RESIZE
-// =========================
+// ===============================
 
 window.addEventListener(
-  "resize",
-  () => {
+    "resize",
+    ()=>{
 
-    camera.aspect =
-      window.innerWidth /
-      window.innerHeight;
+        camera.aspect =
+            window.innerWidth /
+            window.innerHeight;
 
-    camera.updateProjectionMatrix();
+        camera.updateProjectionMatrix();
 
-    renderer.setSize(
-      window.innerWidth,
-      window.innerHeight
-    );
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
 
-  }
+    }
 );
 
 </script>
