@@ -3,339 +3,631 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Pschoolbd - শতক (Percentage) Quiz</title>
+<title>Pschoolbd Percentage Quiz</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
   padding:0 10px 40px;
-  font-family:"Noto Sans Bengali","Noto Sans",Arial,sans-serif;
-  background:linear-gradient(135deg,#eef7ff,#fff7ed);
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  background:#eef6ff;
   color:#222;
 }
 
-/* ================= TOP STICKY BAR ================= */
-
-.topbar{
+/* TOP TIMER */
+.top{
   position:sticky;
   top:0;
   z-index:9999;
-  width:100%;
-  background:linear-gradient(135deg,#1261a0,#174f7d);
+  background:#1261a0;
   color:white;
   text-align:center;
-  padding:7px 10px;
-  box-shadow:0 3px 14px rgba(0,0,0,.25);
+  padding:8px;
+  box-shadow:0 3px 12px #0004;
 }
 
 .brand{
   font-size:18px;
-  font-weight:900;
-  line-height:1.2;
-}
-
-.timer-box{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  margin-top:3px;
-  padding:4px 15px;
-  border-radius:20px;
-  background:rgba(255,255,255,.15);
-}
-
-.timer-label{
-  font-size:13px;
-  font-weight:700;
+  font-weight:bold;
 }
 
 #timer{
+  display:inline-block;
+  margin-top:4px;
+  padding:5px 18px;
+  border-radius:20px;
+  background:white;
+  color:#1261a0;
   font-size:23px;
-  font-weight:900;
-  letter-spacing:1px;
-  line-height:1;
+  font-weight:bold;
 }
 
-#timer.warning{
-  color:#ffe066;
+#timer.red{
+  background:#ffdddd;
+  color:#d00000;
 }
-
-#timer.danger{
-  color:#ff8787;
-  animation:blink .7s infinite;
-}
-
-@keyframes blink{
-  50%{opacity:.45}
-}
-
-
-/* ================= MAIN CARD ================= */
 
 .card{
-  width:min(700px,100%);
-  margin:16px auto;
-  background:#fff;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 6px 25px rgba(0,0,0,.12);
+  max-width:700px;
+  margin:15px auto;
+  background:white;
+  padding:18px;
+  border-radius:18px;
+  box-shadow:0 5px 20px #0002;
 }
 
 h1{
   text-align:center;
-  margin:3px 0 8px;
   color:#1261a0;
-  font-size:29px;
+  font-size:27px;
+  margin:5px 0;
 }
 
-.subtitle{
+.info{
   text-align:center;
-  color:#667085;
-  margin:0 0 20px;
-  font-size:15px;
+  color:#666;
+  margin-bottom:20px;
 }
 
-
-/* ================= QUESTIONS ================= */
-
-.q{
-  border:1px solid #dce4ec;
-  border-radius:15px;
-  padding:15px;
+.question{
+  background:#f8fbff;
+  border:1px solid #d9e4ef;
+  border-radius:14px;
+  padding:14px;
   margin:15px 0;
-  background:#fafcff;
 }
 
-.q h3{
+.question h3{
   margin:0 0 12px;
-  color:#172033;
-  font-size:18px;
-  line-height:1.55;
+  line-height:1.5;
 }
 
-label{
+.option{
   display:block;
-  padding:11px 12px;
-  margin:8px 0;
-  background:#fff;
-  border:1px solid #d8e0e8;
-  border-radius:10px;
+  padding:11px;
+  margin:7px 0;
+  background:white;
+  border:1px solid #ddd;
+  border-radius:9px;
   cursor:pointer;
-  transition:.15s;
 }
 
-label:hover{
-  background:#eef7ff;
-  border-color:#1261a0;
+.option:hover{
+  background:#eaf5ff;
 }
 
-label:has(input:checked){
-  background:#e5f2ff;
-  border-color:#1261a0;
-  font-weight:700;
-}
-
-input{
+.option input{
   margin-right:8px;
-  accent-color:#1261a0;
 }
 
-
-/* ================= SUBMIT ================= */
-
-.submit-btn{
+#submit{
   width:100%;
   padding:15px;
-  margin-top:8px;
   border:0;
-  border-radius:13px;
+  border-radius:12px;
   background:#1261a0;
-  color:#fff;
+  color:white;
   font-size:18px;
-  font-weight:900;
+  font-weight:bold;
   cursor:pointer;
-  box-shadow:0 4px 12px rgba(18,97,160,.25);
 }
 
-.submit-btn:hover{
-  background:#0d4f85;
+#submit:disabled{
+  background:#999;
 }
 
-.submit-btn:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-
-/* ================= RESULT ================= */
-
+/* RESULT */
 #result{
   display:none;
   margin-top:20px;
   padding:18px;
-  border-radius:15px;
-  background:#eef8ee;
-  border:1px solid #cce5cc;
-}
-
-#result h2{
-  margin-top:0;
-  color:#1261a0;
+  border-radius:14px;
+  background:#effbef;
+  border:1px solid #bde0bd;
 }
 
 .correct{
-  color:#17803d;
-  font-weight:700;
+  color:green;
+  font-weight:bold;
 }
 
 .wrong{
-  color:#c62828;
-  font-weight:700;
+  color:red;
+  font-weight:bold;
 }
 
-hr{
-  border:0;
-  border-top:1px solid #d5e5d5;
-}
-
-
-/* ================= POPUP ================= */
-
-.popup-overlay{
+/* POPUP */
+#popup{
+  display:none;
   position:fixed;
   inset:0;
   z-index:10000;
-  display:none;
+  background:rgba(0,0,0,.6);
   align-items:center;
   justify-content:center;
   padding:20px;
-  background:rgba(0,0,0,.58);
 }
 
-.popup-overlay.show{
-  display:flex;
-}
-
-.popup{
-  width:min(410px,100%);
-  background:#fff;
-  border-radius:22px;
-  padding:25px 20px;
+.popup-box{
+  width:min(400px,100%);
+  background:white;
+  border-radius:20px;
+  padding:25px;
   text-align:center;
-  box-shadow:0 15px 50px rgba(0,0,0,.35);
-  animation:popupIn .2s ease;
+  box-shadow:0 10px 40px #0005;
 }
 
 .popup-icon{
-  font-size:48px;
+  font-size:45px;
 }
 
-.popup h2{
-  margin:8px 0;
+.popup-box h2{
   color:#1261a0;
 }
 
-.popup p{
-  color:#555;
-  line-height:1.65;
-  margin-bottom:18px;
-}
-
-.popup button{
+.popup-box button{
   border:0;
-  border-radius:11px;
   padding:11px 25px;
+  border-radius:10px;
   background:#1261a0;
-  color:#fff;
+  color:white;
   font-size:16px;
-  font-weight:700;
+  font-weight:bold;
   cursor:pointer;
-}
-
-@keyframes popupIn{
-  from{
-    transform:scale(.82);
-    opacity:0;
-  }
-  to{
-    transform:scale(1);
-    opacity:1;
-  }
-}
-
-
-/* ================= MOBILE ================= */
-
-@media(max-width:520px){
-
-  body{
-    padding:0 7px 30px;
-  }
-
-  .card{
-    padding:14px;
-    margin-top:12px;
-    border-radius:17px;
-  }
-
-  h1{
-    font-size:24px;
-  }
-
-  .q{
-    padding:12px;
-  }
-
-  .q h3{
-    font-size:16px;
-  }
-
-  label{
-    font-size:15px;
-  }
-
-  #timer{
-    font-size:22px;
-  }
 }
 </style>
 </head>
 
-
 <body>
 
+<!-- FIXED / STICKY TIMER -->
+<div class="top">
+  <div class="brand">📚 Pschoolbd</div>
+  <div id="timer">07:00</div>
+</div>
 
-<!-- ================= STICKY HEADER ================= -->
+<div class="card">
 
-<div class="topbar">
+<h1>শতক (Percentage) Quiz</h1>
 
-  <div class="brand">
-    📚 Pschoolbd
-  </div>
+<div class="info">
+১০টি MCQ-এর জন্য মোট সময় <b>৭ মিনিট</b>
+</div>
 
-  <div class="timer-box">
+<form id="quiz">
 
-    <span class="timer-label">
-      ⏳ সময় বাকি
-    </span>
+<!-- 1 -->
+<div class="question">
+<h3>১. ১০০-এর ২৫% কত?</h3>
 
-    <span id="timer">
-      07:00
-    </span>
+<label class="option">
+<input type="radio" name="q1" value="A"> ক) ২০
+</label>
 
-  </div>
+<label class="option">
+<input type="radio" name="q1" value="B"> খ) ২৫
+</label>
+
+<label class="option">
+<input type="radio" name="q1" value="C"> গ) ৩০
+</label>
+
+<label class="option">
+<input type="radio" name="q1" value="D"> ঘ) ৪০
+</label>
+</div>
+
+<!-- 2 -->
+<div class="question">
+<h3>২. ৫০-এর ১০% কত?</h3>
+
+<label class="option">
+<input type="radio" name="q2" value="A"> ক) ৫
+</label>
+
+<label class="option">
+<input type="radio" name="q2" value="B"> খ) ১০
+</label>
+
+<label class="option">
+<input type="radio" name="q2" value="C"> গ) ১৫
+</label>
+
+<label class="option">
+<input type="radio" name="q2" value="D"> ঘ) ২০
+</label>
+</div>
+
+<!-- 3 -->
+<div class="question">
+<h3>৩. ১/২ কে শতকরায় প্রকাশ করলে কত হবে?</h3>
+
+<label class="option">
+<input type="radio" name="q3" value="A"> ক) ২৫%
+</label>
+
+<label class="option">
+<input type="radio" name="q3" value="B"> খ) ৪০%
+</label>
+
+<label class="option">
+<input type="radio" name="q3" value="C"> গ) ৫০%
+</label>
+
+<label class="option">
+<input type="radio" name="q3" value="D"> ঘ) ৭৫%
+</label>
+</div>
+
+<!-- 4 -->
+<div class="question">
+<h3>৪. ৭৫% কে ভগ্নাংশে প্রকাশ করলে কত?</h3>
+
+<label class="option">
+<input type="radio" name="q4" value="A"> ক) ১/৪
+</label>
+
+<label class="option">
+<input type="radio" name="q4" value="B"> খ) ১/২
+</label>
+
+<label class="option">
+<input type="radio" name="q4" value="C"> গ) ৩/৪
+</label>
+
+<label class="option">
+<input type="radio" name="q4" value="D"> ঘ) ৪/৫
+</label>
+</div>
+
+<!-- 5 -->
+<div class="question">
+<h3>৫. ২০০-এর ২০% কত?</h3>
+
+<label class="option">
+<input type="radio" name="q5" value="A"> ক) ২০
+</label>
+
+<label class="option">
+<input type="radio" name="q5" value="B"> খ) ৩০
+</label>
+
+<label class="option">
+<input type="radio" name="q5" value="C"> গ) ৪০
+</label>
+
+<label class="option">
+<input type="radio" name="q5" value="D"> ঘ) ৫০
+</label>
+</div>
+
+<!-- 6 -->
+<div class="question">
+<h3>৬. ২৫% কে দশমিকে প্রকাশ করলে কত হবে?</h3>
+
+<label class="option">
+<input type="radio" name="q6" value="A"> ক) ০.২৫
+</label>
+
+<label class="option">
+<input type="radio" name="q6" value="B"> খ) ২.৫
+</label>
+
+<label class="option">
+<input type="radio" name="q6" value="C"> গ) ০.০২৫
+</label>
+
+<label class="option">
+<input type="radio" name="q6" value="D"> ঘ) ২৫
+</label>
+</div>
+
+<!-- 7 -->
+<div class="question">
+<h3>৭. ৮০ টাকার ৫০% কত টাকা?</h3>
+
+<label class="option">
+<input type="radio" name="q7" value="A"> ক) ২০ টাকা
+</label>
+
+<label class="option">
+<input type="radio" name="q7" value="B"> খ) ৩০ টাকা
+</label>
+
+<label class="option">
+<input type="radio" name="q7" value="C"> গ) ৪০ টাকা
+</label>
+
+<label class="option">
+<input type="radio" name="q7" value="D"> ঘ) ৫০ টাকা
+</label>
+</div>
+
+<!-- 8 -->
+<div class="question">
+<h3>৮. ৩০০-এর ১০% কত?</h3>
+
+<label class="option">
+<input type="radio" name="q8" value="A"> ক) ১০
+</label>
+
+<label class="option">
+<input type="radio" name="q8" value="B"> খ) ২০
+</label>
+
+<label class="option">
+<input type="radio" name="q8" value="C"> গ) ৩০
+</label>
+
+<label class="option">
+<input type="radio" name="q8" value="D"> ঘ) ৪০
+</label>
+</div>
+
+<!-- 9 -->
+<div class="question">
+<h3>৯. ২০ জন শিক্ষার্থীর ৫০% কতজন?</h3>
+
+<label class="option">
+<input type="radio" name="q9" value="A"> ক) ৫ জন
+</label>
+
+<label class="option">
+<input type="radio" name="q9" value="B"> খ) ১০ জন
+</label>
+
+<label class="option">
+<input type="radio" name="q9" value="C"> গ) ১৫ জন
+</label>
+
+<label class="option">
+<input type="radio" name="q9" value="D"> ঘ) ২০ জন
+</label>
+</div>
+
+<!-- 10 -->
+<div class="question">
+<h3>১০. ৪০-এর কত শতাংশ হলো ২০?</h3>
+
+<label class="option">
+<input type="radio" name="q10" value="A"> ক) ২৫%
+</label>
+
+<label class="option">
+<input type="radio" name="q10" value="B"> খ) ৪০%
+</label>
+
+<label class="option">
+<input type="radio" name="q10" value="C"> গ) ৫০%
+</label>
+
+<label class="option">
+<input type="radio" name="q10" value="D"> ঘ) ৭৫%
+</label>
+</div>
+
+<button type="button" id="submit">
+✅ Submit Quiz
+</button>
+
+</form>
+
+<div id="result"></div>
 
 </div>
 
 
-<!-- ================= QUI
+<!-- POPUP -->
+
+<div id="popup">
+
+<div class="popup-box">
+
+<div class="popup-icon" id="popupIcon">⚠️</div>
+
+<h2 id="popupTitle">আগে উত্তর দিন!</h2>
+
+<p id="popupMessage">
+সব প্রশ্নের উত্তর দেওয়ার পর Submit করুন।
+</p>
+
+<button type="button" onclick="closePopup()">
+ঠিক আছে
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ANSWERS
+========================= */
+
+const correctAnswers = [
+"B",
+"A",
+"C",
+"C",
+"C",
+"A",
+"C",
+"C",
+"B",
+"C"
+];
+
+
+/* =========================
+   TIMER
+   TOTAL = 7 MINUTES
+========================= */
+
+let seconds = 420;
+let finished = false;
+
+const timer = document.getElementById("timer");
+
+function showTime(){
+
+  let min = Math.floor(seconds / 60);
+  let sec = seconds % 60;
+
+  timer.innerHTML =
+    String(min).padStart(2,"0")
+    + ":"
+    + String(sec).padStart(2,"0");
+
+  if(seconds <= 30){
+    timer.classList.add("red");
+  }
+}
+
+showTime();
+
+const countdown = setInterval(function(){
+
+  if(seconds > 0){
+
+    seconds--;
+
+    showTime();
+
+  }else{
+
+    clearInterval(countdown);
+
+    finished = true;
+
+    document.getElementById("submit").disabled = true;
+
+    showPopup(
+      "⏰",
+      "সময় শেষ!",
+      "৭ মিনিট শেষ হয়ে গেছে।"
+    );
+  }
+
+},1000);
+
+
+/* =========================
+   POPUP
+========================= */
+
+function showPopup(icon,title,message){
+
+  document.getElementById("popupIcon").innerHTML = icon;
+
+  document.getElementById("popupTitle").innerHTML = title;
+
+  document.getElementById("popupMessage").innerHTML = message;
+
+  document.getElementById("popup").style.display = "flex";
+}
+
+
+function closePopup(){
+
+  document.getElementById("popup").style.display = "none";
+
+}
+
+
+/* =========================
+   SUBMIT
+========================= */
+
+document.getElementById("submit").onclick = function(){
+
+  if(finished){
+    return;
+  }
+
+
+  /* প্রথমে unanswered খুঁজবে */
+
+  let unanswered = [];
+
+  for(let i=1;i<=10;i++){
+
+    let selected =
+      document.querySelector(
+        'input[name="q'+i+'"]:checked'
+      );
+
+    if(!selected){
+
+      unanswered.push(i);
+
+    }
+  }
+
+
+  /* কোনো উত্তর না দিলে POPUP */
+
+  if(unanswered.length > 0){
+
+    showPopup(
+      "⚠️",
+      "আগে উত্তর দিন!",
+      "প্রশ্ন "+unanswered.join(", ")
+      +" এর উত্তর দেওয়া হয়নি।<br><br>"
+      +"সব প্রশ্নের উত্তর দিন, তারপর Submit করুন।"
+    );
+
+    return;
+  }
+
+
+  /* সব উত্তর দেওয়া হয়েছে */
+
+  let score = 0;
+
+  for(let i=1;i<=10;i++){
+
+    let selected =
+      document.querySelector(
+        'input[name="q'+i+'"]:checked'
+      );
+
+    if(selected.value === correctAnswers[i-1]){
+
+      score++;
+
+    }
+  }
+
+
+  finished = true;
+
+  clearInterval(countdown);
+
+  this.disabled = true;
+
+
+  document.getElementById("result").style.display = "block";
+
+  document.getElementById("result").innerHTML =
+    "<h2>🎉 আপনার ফলাফল</h2>"
+    +"<h3>স্কোর: "+score+" / 10</h3>"
+    +"<p>সঠিক উত্তর: "+score+"</p>"
+    +"<p>ভুল উত্তর: "+(10-score)+"</p>";
+
+
+  showPopup(
+    "🎉",
+    "Quiz সম্পন্ন!",
+    "আপনার স্কোর: "+score+" / 10"
+  );
+
+};
+
+</script>
+
+</body>
+</html>
