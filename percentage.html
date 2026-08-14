@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pschoolbd - শতক (Percentage) Quiz</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f3f7fb;margin:0;padding:16px;color:#222}
+.card{max-width:700px;margin:auto;background:white;border-radius:18px;padding:20px;box-shadow:0 4px 18px #0001}
+h1{text-align:center;margin:5px 0;color:#1261a0}
+.brand{text-align:center;font-weight:bold;color:#e67e22;margin-bottom:18px}
+.q{border:1px solid #ddd;border-radius:14px;padding:15px;margin:14px 0;background:#fafafa}
+.q h3{margin-top:0}
+label{display:block;padding:9px;margin:7px 0;background:white;border-radius:9px;border:1px solid #ddd}
+input{margin-right:8px}
+button{width:100%;padding:14px;border:0;border-radius:12px;background:#1261a0;color:white;font-size:18px;font-weight:bold;cursor:pointer}
+#result{display:none;margin-top:18px;padding:16px;border-radius:14px;background:#eef8ee}
+.correct{color:green;font-weight:bold}
+.wrong{color:#c62828;font-weight:bold}
+.answer{margin-top:7px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>শতক (Percentage) Quiz</h1>
+<div class="brand">Pschoolbd</div>
+<form id="quiz">
+
+<div class="q"><h3>১. ১০০-এর ২৫% কত?</h3>
+<label><input type="radio" name="q1" value="A"> ক) ২০</label>
+<label><input type="radio" name="q1" value="B"> খ) ২৫</label>
+<label><input type="radio" name="q1" value="C"> গ) ৩০</label>
+<label><input type="radio" name="q1" value="D"> ঘ) ৪০</label></div>
+
+<div class="q"><h3>২. ৫০-এর ১০% কত?</h3>
+<label><input type="radio" name="q2" value="A"> ক) ৫</label>
+<label><input type="radio" name="q2" value="B"> খ) ১০</label>
+<label><input type="radio" name="q2" value="C"> গ) ১৫</label>
+<label><input type="radio" name="q2" value="D"> ঘ) ২০</label></div>
+
+<div class="q"><h3>৩. ১/২ কে শতকরায় প্রকাশ করলে কত হবে?</h3>
+<label><input type="radio" name="q3" value="A"> ক) ২৫%</label>
+<label><input type="radio" name="q3" value="B"> খ) ৪০%</label>
+<label><input type="radio" name="q3" value="C"> গ) ৫০%</label>
+<label><input type="radio" name="q3" value="D"> ঘ) ৭৫%</label></div>
+
+<div class="q"><h3>৪. ৭৫% কে ভগ্নাংশে প্রকাশ করলে কত?</h3>
+<label><input type="radio" name="q4" value="A"> ক) ১/৪</label>
+<label><input type="radio" name="q4" value="B"> খ) ১/২</label>
+<label><input type="radio" name="q4" value="C"> গ) ৩/৪</label>
+<label><input type="radio" name="q4" value="D"> ঘ) ৪/৫</label></div>
+
+<div class="q"><h3>৫. ২০০-এর ২০% কত?</h3>
+<label><input type="radio" name="q5" value="A"> ক) ২০</label>
+<label><input type="radio" name="q5" value="B"> খ) ৩০</label>
+<label><input type="radio" name="q5" value="C"> গ) ৪০</label>
+<label><input type="radio" name="q5" value="D"> ঘ) ৫০</label></div>
+
+<div class="q"><h3>৬. ২৫% কে দশমিকে প্রকাশ করলে কত হবে?</h3>
+<label><input type="radio" name="q6" value="A"> ক) ০.২৫</label>
+<label><input type="radio" name="q6" value="B"> খ) ২.৫</label>
+<label><input type="radio" name="q6" value="C"> গ) ০.০২৫</label>
+<label><input type="radio" name="q6" value="D"> ঘ) ২৫</label></div>
+
+<div class="q"><h3>৭. ৮০ টাকার ৫০% কত টাকা?</h3>
+<label><input type="radio" name="q7" value="A"> ক) ২০ টাকা</label>
+<label><input type="radio" name="q7" value="B"> খ) ৩০ টাকা</label>
+<label><input type="radio" name="q7" value="C"> গ) ৪০ টাকা</label>
+<label><input type="radio" name="q7" value="D"> ঘ) ৫০ টাকা</label></div>
+
+<div class="q"><h3>৮. ৩০০-এর ১০% কত?</h3>
+<label><input type="radio" name="q8" value="A"> ক) ১০</label>
+<label><input type="radio" name="q8" value="B"> খ) ২০</label>
+<label><input type="radio" name="q8" value="C"> গ) ৩০</label>
+<label><input type="radio" name="q8" value="D"> ঘ) ৪০</label></div>
+
+<div class="q"><h3>৯. ২০ জন শিক্ষার্থীর ৫০% কতজন?</h3>
+<label><input type="radio" name="q9" value="A"> ক) ৫ জন</label>
+<label><input type="radio" name="q9" value="B"> খ) ১০ জন</label>
+<label><input type="radio" name="q9" value="C"> গ) ১৫ জন</label>
+<label><input type="radio" name="q9" value="D"> ঘ) ২০ জন</label></div>
+
+<div class="q"><h3>১০. ৪০-এর কত শতাংশ হলো ২০?</h3>
+<label><input type="radio" name="q10" value="A"> ক) ২৫%</label>
+<label><input type="radio" name="q10" value="B"> খ) ৪০%</label>
+<label><input type="radio" name="q10" value="C"> গ) ৫০%</label>
+<label><input type="radio" name="q10" value="D"> ঘ) ৭৫%</label></div>
+
+<button type="button" onclick="submitQuiz()">Submit Quiz</button>
+</form>
+
+<div id="result"></div>
+</div>
+
+<script>
+const answers={q1:"B",q2:"A",q3:"C",q4:"C",q5:"C",q6:"A",q7:"C",q8:"C",q9:"B",q10:"C"};
+const texts={
+q1:"খ) ২৫",q2:"ক) ৫",q3:"গ) ৫০%",q4:"গ) ৩/৪",q5:"গ) ৪০",q6:"ক) ০.২৫",
+q7:"গ) ৪০ টাকা",q8:"গ) ৩০",q9:"খ) ১০ জন",q10:"গ) ৫০%"
+};
+function submitQuiz(){
+ let score=0, unanswered=0, details="";
+ for(let i=1;i<=10;i++){
+   const selected=document.querySelector('input[name="q'+i+'"]:checked');
+   if(!selected){unanswered++;details+=`<p class="wrong">প্রশ্ন ${i}: উত্তর দেওয়া হয়নি। সঠিক উত্তর: ${texts["q"+i]}</p>`;}
+   else if(selected.value===answers["q"+i]){
+     score++;details+=`<p class="correct">প্রশ্ন ${i}: সঠিক উত্তর ✓</p>`;
+   }else{
+     details+=`<p class="wrong">প্রশ্ন ${i}: ভুল ✗ — সঠিক উত্তর: ${texts["q"+i]}</p>`;
+   }
+ }
+ document.getElementById("result").style.display="block";
+ document.getElementById("result").innerHTML=
+ `<h2>আপনার ফলাফল: ${score}/10</h2>
+ <p>সঠিক: <b>${score}</b> | ভুল/উত্তরহীন: <b>${10-score}</b></p>
+ ${details}`;
+ window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
