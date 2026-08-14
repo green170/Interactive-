@@ -7,56 +7,63 @@
 <title>Pschoolbd - শতক (Percentage) Quiz</title>
 
 <style>
-
 *{
   box-sizing:border-box;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
+  margin:0;
+  padding:0 10px 40px;
   font-family:"Noto Sans Bengali","Noto Sans",Arial,sans-serif;
   background:linear-gradient(135deg,#eef7ff,#fff7ed);
-  margin:0;
-  padding:0 12px 30px;
   color:#222;
 }
 
-/* ================= TOP BAR ================= */
+/* ================= TOP STICKY BAR ================= */
 
 .topbar{
   position:sticky;
   top:0;
   z-index:9999;
+  width:100%;
   background:linear-gradient(135deg,#1261a0,#174f7d);
   color:white;
-  padding:8px 12px;
   text-align:center;
-  box-shadow:0 3px 12px #0003;
+  padding:7px 10px;
+  box-shadow:0 3px 14px rgba(0,0,0,.25);
 }
 
 .brand{
   font-size:18px;
   font-weight:900;
-  margin-bottom:2px;
+  line-height:1.2;
 }
 
 .timer-box{
   display:inline-flex;
   align-items:center;
-  gap:7px;
-  background:#ffffff1f;
-  padding:5px 14px;
+  justify-content:center;
+  gap:8px;
+  margin-top:3px;
+  padding:4px 15px;
   border-radius:20px;
+  background:rgba(255,255,255,.15);
 }
 
 .timer-label{
   font-size:13px;
-  font-weight:bold;
+  font-weight:700;
 }
 
 #timer{
-  font-size:22px;
+  font-size:23px;
   font-weight:900;
   letter-spacing:1px;
+  line-height:1;
 }
 
 #timer.warning{
@@ -65,34 +72,41 @@ body{
 
 #timer.danger{
   color:#ff8787;
+  animation:blink .7s infinite;
 }
 
-/* ================= CARD ================= */
+@keyframes blink{
+  50%{opacity:.45}
+}
+
+
+/* ================= MAIN CARD ================= */
 
 .card{
-  max-width:700px;
+  width:min(700px,100%);
   margin:16px auto;
-  background:white;
+  background:#fff;
   border-radius:20px;
   padding:20px;
-  box-shadow:0 5px 22px #0002;
+  box-shadow:0 6px 25px rgba(0,0,0,.12);
 }
 
 h1{
   text-align:center;
-  margin:5px 0 8px;
+  margin:3px 0 8px;
   color:#1261a0;
-  font-size:28px;
+  font-size:29px;
 }
 
 .subtitle{
   text-align:center;
-  color:#666;
-  margin:0 0 18px;
+  color:#667085;
+  margin:0 0 20px;
   font-size:15px;
 }
 
-/* ================= QUESTION ================= */
+
+/* ================= QUESTIONS ================= */
 
 .q{
   border:1px solid #dce4ec;
@@ -106,16 +120,16 @@ h1{
   margin:0 0 12px;
   color:#172033;
   font-size:18px;
-  line-height:1.5;
+  line-height:1.55;
 }
 
 label{
   display:block;
-  padding:11px;
+  padding:11px 12px;
   margin:8px 0;
-  background:white;
-  border-radius:10px;
+  background:#fff;
   border:1px solid #d8e0e8;
+  border-radius:10px;
   cursor:pointer;
   transition:.15s;
 }
@@ -125,23 +139,32 @@ label:hover{
   border-color:#1261a0;
 }
 
+label:has(input:checked){
+  background:#e5f2ff;
+  border-color:#1261a0;
+  font-weight:700;
+}
+
 input{
   margin-right:8px;
+  accent-color:#1261a0;
 }
+
 
 /* ================= SUBMIT ================= */
 
 .submit-btn{
   width:100%;
   padding:15px;
+  margin-top:8px;
   border:0;
   border-radius:13px;
   background:#1261a0;
-  color:white;
+  color:#fff;
   font-size:18px;
-  font-weight:bold;
+  font-weight:900;
   cursor:pointer;
-  margin-top:10px;
+  box-shadow:0 4px 12px rgba(18,97,160,.25);
 }
 
 .submit-btn:hover{
@@ -153,15 +176,16 @@ input{
   cursor:not-allowed;
 }
 
+
 /* ================= RESULT ================= */
 
 #result{
   display:none;
-  margin-top:18px;
+  margin-top:20px;
   padding:18px;
   border-radius:15px;
   background:#eef8ee;
-  border:1px solid #cde8cd;
+  border:1px solid #cce5cc;
 }
 
 #result h2{
@@ -170,26 +194,32 @@ input{
 }
 
 .correct{
-  color:green;
-  font-weight:bold;
+  color:#17803d;
+  font-weight:700;
 }
 
 .wrong{
   color:#c62828;
-  font-weight:bold;
+  font-weight:700;
 }
+
+hr{
+  border:0;
+  border-top:1px solid #d5e5d5;
+}
+
 
 /* ================= POPUP ================= */
 
 .popup-overlay{
   position:fixed;
   inset:0;
-  background:#0008;
+  z-index:10000;
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:10000;
   padding:20px;
+  background:rgba(0,0,0,.58);
 }
 
 .popup-overlay.show{
@@ -197,17 +227,17 @@ input{
 }
 
 .popup{
-  width:min(400px,100%);
-  background:white;
-  border-radius:20px;
+  width:min(410px,100%);
+  background:#fff;
+  border-radius:22px;
   padding:25px 20px;
   text-align:center;
-  box-shadow:0 12px 40px #0005;
-  animation:popup .2s ease;
+  box-shadow:0 15px 50px rgba(0,0,0,.35);
+  animation:popupIn .2s ease;
 }
 
 .popup-icon{
-  font-size:45px;
+  font-size:48px;
 }
 
 .popup h2{
@@ -217,23 +247,24 @@ input{
 
 .popup p{
   color:#555;
-  line-height:1.6;
+  line-height:1.65;
+  margin-bottom:18px;
 }
 
 .popup button{
   border:0;
-  background:#1261a0;
-  color:white;
+  border-radius:11px;
   padding:11px 25px;
-  border-radius:10px;
+  background:#1261a0;
+  color:#fff;
   font-size:16px;
-  font-weight:bold;
+  font-weight:700;
   cursor:pointer;
 }
 
-@keyframes popup{
+@keyframes popupIn{
   from{
-    transform:scale(.8);
+    transform:scale(.82);
     opacity:0;
   }
   to{
@@ -242,12 +273,13 @@ input{
   }
 }
 
+
 /* ================= MOBILE ================= */
 
 @media(max-width:520px){
 
   body{
-    padding:0 8px 25px;
+    padding:0 7px 30px;
   }
 
   .card{
@@ -270,15 +302,12 @@ input{
 
   label{
     font-size:15px;
-    padding:10px;
   }
 
   #timer{
-    font-size:21px;
+    font-size:22px;
   }
-
 }
-
 </style>
 </head>
 
@@ -286,7 +315,7 @@ input{
 <body>
 
 
-<!-- ================= STICKY TOP ================= -->
+<!-- ================= STICKY HEADER ================= -->
 
 <div class="topbar">
 
@@ -309,607 +338,4 @@ input{
 </div>
 
 
-<!-- ================= MAIN CARD ================= -->
-
-<div class="card">
-
-  <h1>
-    শতক (Percentage) Quiz
-  </h1>
-
-  <p class="subtitle">
-    ১০টি MCQ-এর জন্য মোট সময় ৭ মিনিট
-  </p>
-
-
-  <form id="quiz">
-
-
-    <!-- QUESTION 1 -->
-
-    <div class="q">
-
-      <h3>
-        ১. ১০০-এর ২৫% কত?
-      </h3>
-
-      <label>
-        <input type="radio" name="q1" value="A">
-        ক) ২০
-      </label>
-
-      <label>
-        <input type="radio" name="q1" value="B">
-        খ) ২৫
-      </label>
-
-      <label>
-        <input type="radio" name="q1" value="C">
-        গ) ৩০
-      </label>
-
-      <label>
-        <input type="radio" name="q1" value="D">
-        ঘ) ৪০
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 2 -->
-
-    <div class="q">
-
-      <h3>
-        ২. ৫০-এর ১০% কত?
-      </h3>
-
-      <label>
-        <input type="radio" name="q2" value="A">
-        ক) ৫
-      </label>
-
-      <label>
-        <input type="radio" name="q2" value="B">
-        খ) ১০
-      </label>
-
-      <label>
-        <input type="radio" name="q2" value="C">
-        গ) ১৫
-      </label>
-
-      <label>
-        <input type="radio" name="q2" value="D">
-        ঘ) ২০
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 3 -->
-
-    <div class="q">
-
-      <h3>
-        ৩. ১/২ কে শতকরায় প্রকাশ করলে কত হবে?
-      </h3>
-
-      <label>
-        <input type="radio" name="q3" value="A">
-        ক) ২৫%
-      </label>
-
-      <label>
-        <input type="radio" name="q3" value="B">
-        খ) ৪০%
-      </label>
-
-      <label>
-        <input type="radio" name="q3" value="C">
-        গ) ৫০%
-      </label>
-
-      <label>
-        <input type="radio" name="q3" value="D">
-        ঘ) ৭৫%
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 4 -->
-
-    <div class="q">
-
-      <h3>
-        ৪. ৭৫% কে ভগ্নাংশে প্রকাশ করলে কত?
-      </h3>
-
-      <label>
-        <input type="radio" name="q4" value="A">
-        ক) ১/৪
-      </label>
-
-      <label>
-        <input type="radio" name="q4" value="B">
-        খ) ১/২
-      </label>
-
-      <label>
-        <input type="radio" name="q4" value="C">
-        গ) ৩/৪
-      </label>
-
-      <label>
-        <input type="radio" name="q4" value="D">
-        ঘ) ৪/৫
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 5 -->
-
-    <div class="q">
-
-      <h3>
-        ৫. ২০০-এর ২০% কত?
-      </h3>
-
-      <label>
-        <input type="radio" name="q5" value="A">
-        ক) ২০
-      </label>
-
-      <label>
-        <input type="radio" name="q5" value="B">
-        খ) ৩০
-      </label>
-
-      <label>
-        <input type="radio" name="q5" value="C">
-        গ) ৪০
-      </label>
-
-      <label>
-        <input type="radio" name="q5" value="D">
-        ঘ) ৫০
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 6 -->
-
-    <div class="q">
-
-      <h3>
-        ৬. ২৫% কে দশমিকে প্রকাশ করলে কত হবে?
-      </h3>
-
-      <label>
-        <input type="radio" name="q6" value="A">
-        ক) ০.২৫
-      </label>
-
-      <label>
-        <input type="radio" name="q6" value="B">
-        খ) ২.৫
-      </label>
-
-      <label>
-        <input type="radio" name="q6" value="C">
-        গ) ০.০২৫
-      </label>
-
-      <label>
-        <input type="radio" name="q6" value="D">
-        ঘ) ২৫
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 7 -->
-
-    <div class="q">
-
-      <h3>
-        ৭. ৮০ টাকার ৫০% কত টাকা?
-      </h3>
-
-      <label>
-        <input type="radio" name="q7" value="A">
-        ক) ২০ টাকা
-      </label>
-
-      <label>
-        <input type="radio" name="q7" value="B">
-        খ) ৩০ টাকা
-      </label>
-
-      <label>
-        <input type="radio" name="q7" value="C">
-        গ) ৪০ টাকা
-      </label>
-
-      <label>
-        <input type="radio" name="q7" value="D">
-        ঘ) ৫০ টাকা
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 8 -->
-
-    <div class="q">
-
-      <h3>
-        ৮. ৩০০-এর ১০% কত?
-      </h3>
-
-      <label>
-        <input type="radio" name="q8" value="A">
-        ক) ১০
-      </label>
-
-      <label>
-        <input type="radio" name="q8" value="B">
-        খ) ২০
-      </label>
-
-      <label>
-        <input type="radio" name="q8" value="C">
-        গ) ৩০
-      </label>
-
-      <label>
-        <input type="radio" name="q8" value="D">
-        ঘ) ৪০
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 9 -->
-
-    <div class="q">
-
-      <h3>
-        ৯. ২০ জন শিক্ষার্থীর ৫০% কতজন?
-      </h3>
-
-      <label>
-        <input type="radio" name="q9" value="A">
-        ক) ৫ জন
-      </label>
-
-      <label>
-        <input type="radio" name="q9" value="B">
-        খ) ১০ জন
-      </label>
-
-      <label>
-        <input type="radio" name="q9" value="C">
-        গ) ১৫ জন
-      </label>
-
-      <label>
-        <input type="radio" name="q9" value="D">
-        ঘ) ২০ জন
-      </label>
-
-    </div>
-
-
-    <!-- QUESTION 10 -->
-
-    <div class="q">
-
-      <h3>
-        ১০. ৪০-এর কত শতাংশ হলো ২০?
-      </h3>
-
-      <label>
-        <input type="radio" name="q10" value="A">
-        ক) ২৫%
-      </label>
-
-      <label>
-        <input type="radio" name="q10" value="B">
-        খ) ৪০%
-      </label>
-
-      <label>
-        <input type="radio" name="q10" value="C">
-        গ) ৫০%
-      </label>
-
-      <label>
-        <input type="radio" name="q10" value="D">
-        ঘ) ৭৫%
-      </label>
-
-    </div>
-
-
-    <!-- SUBMIT -->
-
-    <button
-      type="button"
-      class="submit-btn"
-      id="submitBtn"
-      onclick="submitQuiz()"
-    >
-      ✅ Submit Quiz
-    </button>
-
-  </form>
-
-
-  <!-- RESULT -->
-
-  <div id="result"></div>
-
-</div>
-
-
-<!-- ================= POPUP ================= -->
-
-<div
-  class="popup-overlay"
-  id="popupOverlay"
->
-
-  <div class="popup">
-
-    <div
-      class="popup-icon"
-      id="popupIcon"
-    >
-      ⚠️
-    </div>
-
-    <h2 id="popupTitle">
-      আগে উত্তর দিন!
-    </h2>
-
-    <p id="popupText">
-      সবগুলো MCQ-এর উত্তর দিন।
-      তারপর Submit Quiz চাপুন।
-    </p>
-
-    <button onclick="closePopup()">
-      ঠিক আছে
-    </button>
-
-  </div>
-
-</div>
-
-
-<script>
-
-/* =========================================
-   ANSWERS
-========================================= */
-
-const answers = {
-
-  q1:"B",
-  q2:"A",
-  q3:"C",
-  q4:"C",
-  q5:"C",
-  q6:"A",
-  q7:"C",
-  q8:"C",
-  q9:"B",
-  q10:"C"
-
-};
-
-
-const texts = {
-
-  q1:"খ) ২৫",
-  q2:"ক) ৫",
-  q3:"গ) ৫০%",
-  q4:"গ) ৩/৪",
-  q5:"গ) ৪০",
-  q6:"ক) ০.২৫",
-  q7:"গ) ৪০ টাকা",
-  q8:"গ) ৩০",
-  q9:"খ) ১০ জন",
-  q10:"গ) ৫০%"
-
-};
-
-
-/* =========================================
-   QUIZ STATUS
-========================================= */
-
-let quizSubmitted = false;
-let timeLeft = 7 * 60;
-
-
-/* =========================================
-   COUNTDOWN
-   মোট ১০টি MCQ = ৭ মিনিট
-========================================= */
-
-const timer = document.getElementById("timer");
-
-const timerInterval = setInterval(function(){
-
-  const minutes =
-    Math.floor(timeLeft / 60);
-
-  const seconds =
-    timeLeft % 60;
-
-
-  timer.textContent =
-    String(minutes).padStart(2,"0")
-    + ":"
-    + String(seconds).padStart(2,"0");
-
-
-  /* ২ মিনিটের নিচে */
-
-  if(timeLeft <= 120){
-
-    timer.classList.add("warning");
-
-  }
-
-
-  /* ৩০ সেকেন্ডের নিচে */
-
-  if(timeLeft <= 30){
-
-    timer.classList.remove("warning");
-
-    timer.classList.add("danger");
-
-  }
-
-
-  /* সময় শেষ */
-
-  if(timeLeft <= 0){
-
-    clearInterval(timerInterval);
-
-    timer.textContent = "00:00";
-
-    quizSubmitted = true;
-
-    document.getElementById("submitBtn").disabled = true;
-
-
-    showPopup(
-      "⏰",
-      "সময় শেষ!",
-      "১০টি MCQ-এর জন্য নির্ধারিত ৭ মিনিট শেষ হয়ে গেছে।"
-    );
-
-
-    return;
-  }
-
-
-  timeLeft--;
-
-},1000);
-
-
-/* =========================================
-   SUBMIT QUIZ
-========================================= */
-
-function submitQuiz(){
-
-  if(quizSubmitted){
-
-    return;
-
-  }
-
-
-  let score = 0;
-  let unanswered = 0;
-  let details = "";
-
-
-  for(let i=1;i<=10;i++){
-
-    const selected =
-      document.querySelector(
-        'input[name="q'+i+'"]:checked'
-      );
-
-
-    /* উত্তর দেওয়া হয়নি */
-
-    if(!selected){
-
-      unanswered++;
-
-      details +=
-      `<p class="wrong">
-        প্রশ্ন ${i}: উত্তর দেওয়া হয়নি।
-        সঠিক উত্তর: ${texts["q"+i]}
-      </p>`;
-
-    }
-
-
-    /* সঠিক */
-
-    else if(
-      selected.value === answers["q"+i]
-    ){
-
-      score++;
-
-      details +=
-      `<p class="correct">
-        প্রশ্ন ${i}: সঠিক উত্তর ✓
-      </p>`;
-
-    }
-
-
-    /* ভুল */
-
-    else{
-
-      details +=
-      `<p class="wrong">
-        প্রশ্ন ${i}: ভুল ✗ —
-        সঠিক উত্তর: ${texts["q"+i]}
-      </p>`;
-
-    }
-
-  }
-
-
-  /* =======================================
-     কোনো প্রশ্ন উত্তরহীন থাকলে
-  ======================================= */
-
-  if(unanswered > 0){
-
-    showPopup(
-      "⚠️",
-      "আগে সব প্রশ্নের উত্তর দিন!",
-      unanswered +
-      "টি প্রশ্নের উত্তর দেওয়া হয়নি। আগে উত্তর দিন, তারপর Submit Quiz চাপুন।"
-    );
-
-    return;
-
-  }
-
-
-  /* =======================================
-     SUBMIT SUCCESS
-  ======================================= */
-
-  quizSubmitted = true;
-
-  clearInterval(timerInterval);
-
-  document.getElementById("submitBtn").disabled = true;
-
-
-  const result =
-    document.getElementById("result");
-
-
-  result.style.display = "block";
+<!-- ================= QUI
